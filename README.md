@@ -9,7 +9,6 @@ O sistema permite que clientes realizem, modifiquem, consultem e cancelem pedido
 
 | Nome |
 |------|
-| Arthur Capanema Bretas | 
 | Lucas de Souza Pereira | 
 | Yan Araújo Resende     | 
 ---
