@@ -1,79 +1,92 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Clientes — Sistema de Aluguel de Carros</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        h1 { color: #333; margin-bottom: 30px; border-bottom: 3px solid #667eea; padding-bottom: 15px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        tr:hover { background: #f9f9f9; }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+        a:hover { background: #764ba2; }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>📋 Clientes Registrados no Sistema</h1>
+        <p style="color: #666; margin-bottom: 20px;">Total de {totalClientes} clientes</p>
 
-<nav class="navbar">
-    <a class="navbar-brand" th:href="@{/agente/dashboard}">🚗 <span>Aluguel</span> de Carros</a>
-    <div class="navbar-links">
-        <a th:href="@{/agente/dashboard}">Dashboard</a>
-        <form th:action="@{/logout}" method="post" style="display: inline;">
-            <button type="submit" class="btn-logout">Sair</button>
-        </form>
-    </div>
-</nav>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {#for cliente in clientes}
+                <tr>
+                    <td>{cliente.id}</td>
+                    <td>{cliente.nome}</td>
+                    <td>{cliente.email}</td>
+                    <td><strong>{cliente.tipoUsuario}</strong></td>
+                </tr>
+                {/for}
+            </tbody>
+        </table>
 
-<div class="main-container">
-
-    <div th:if="${mensagem}" class="alert alert-success" th:text="${mensagem}"></div>
-    <div th:if="${erro}" class="alert alert-danger" th:text="${erro}"></div>
-
-    <div class="card">
-        <div class="card-header">
-            <h2>👥 Clientes Cadastrados</h2>
-            <p>Lista de todos os usuários registrados no sistema</p>
-        </div>
-
-        <div th:if="${clientes.isEmpty()}" class="alert alert-info">
-            Nenhum cliente cadastrado no sistema.
-        </div>
-
-        <div th:if="${!clientes.isEmpty()}" class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nome</th>
-                        <th>CPF</th>
-                        <th>E-mail</th>
-                        <th>Profissão</th>
-                        <th>Perfil</th>
-                        <th>Empregadoras</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="c : ${clientes}">
-                        <td th:text="${c.id}">1</td>
-                        <td th:text="${c.nome}">—</td>
-                        <td th:text="${c.cpf}">—</td>
-                        <td th:text="${c.email}">—</td>
-                        <td th:text="${c.profissao}">—</td>
-                        <td>
-                            <span th:if="${c.tipoUsuario.name() == 'CLIENTE'}" class="badge badge-cliente">CLIENTE</span>
-                            <span th:if="${c.tipoUsuario.name() == 'AGENTE'}" class="badge badge-agente">AGENTE</span>
-                        </td>
-                        <td th:text="${c.entidadesEmpregadoras.size()}">0</td>
-                        <td>
-                            <form th:action="@{/cliente/excluir/{id}(id=${c.id})}" method="post"
-                                  onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
-                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Excluir</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="nav-links">
+            <a href="/cliente/dashboard">📊 Voltar ao Dashboard</a>
+            <a href="/">🏠 Voltar</a>
         </div>
     </div>
-</div>
-
-<div class="footer">
-    Sistema de Aluguel de Carros — PUC Minas · Laboratório de Desenvolvimento de Software
-</div>
 </body>
 </html>

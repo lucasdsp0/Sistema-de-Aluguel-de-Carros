@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Aluguel de Carros - Início</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        .success { color: #27ae60; font-weight: bold; font-size: 18px; }
+        .links { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        a {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+        a:hover { background: #764ba2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Sistema de Aluguel de Carros</h1>
+        <p class="success">✅ Rodando com Quarkus 3.34.3!</p>
+        <p style="margin: 15px 0; color: #666;">Bem-vindo ao sistema de gestão de aluguel de automóveis!</p>
+        <div class="links">
+            <a href="/login">🔐 Fazer Login</a>
+            <a href="/cadastro">📝 Cadastro</a>
+            <a href="/cliente/dashboard">📊 Cliente (Demo)</a>
+            <a href="/agente/dashboard">🏢 Agente (Demo)</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema de Aluguel de Carros</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -13,7 +17,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
         }
         .login-container {
             background: white;
@@ -23,17 +26,33 @@
             width: 100%;
             max-width: 400px;
         }
-        h1 { color: #333; margin-bottom: 30px; text-align: center; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
         input {
             width: 100%;
             padding: 10px 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 14px;
+            transition: border-color 0.3s;
         }
-        input:focus { outline: none; border-color: #667eea; }
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.1);
+        }
         button {
             width: 100%;
             padding: 12px;
@@ -44,9 +63,25 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
+            transition: background 0.3s;
+            margin-top: 10px;
         }
-        button:hover { background: #764ba2; }
+        button:hover {
+            background: #764ba2;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        .signup-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
         .test-creds {
             background: #f8f9fa;
             padding: 15px;
@@ -56,20 +91,11 @@
             color: #666;
             border-left: 4px solid #667eea;
         }
-        .signup-link { text-align: center; margin-top: 20px; color: #666; }
-        .signup-link a { display: inline; color: #667eea; text-decoration: none; font-weight: 600; }
-        .signup-link a:hover { text-decoration: underline; }
-        .alert { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
-        .error { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h1>🔐 Faça Login</h1>
-
-        {#if mensagem}
-        <div class="alert">{mensagem}</div>
-        {/if}
 
         <div class="test-creds">
             <strong>Credenciais de Teste:</strong><br>
@@ -90,8 +116,9 @@
         </form>
 
         <div class="signup-link">
-            Não tem conta? <a href="/cadastro">Cadastre-se aqui</a>
+            Não tem cadastro? <a href="/cadastro">Cadastre-se aqui</a>
         </div>
+
         <div class="signup-link" style="margin-top: 30px; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
             <a href="/">← Voltar</a>
         </div>

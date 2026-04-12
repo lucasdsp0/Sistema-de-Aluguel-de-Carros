@@ -33,13 +33,16 @@ public class Cliente {
     @Column(nullable = false, unique = true, length = 14)
     private String cpf;
 
-    @Column(nullable = true, length = 20)
+    @NotBlank(message = "RG é obrigatório")
+    @Column(nullable = false, length = 20)
     private String rg;
 
-    @Column(nullable = true)
+    @NotBlank(message = "Endereço é obrigatório")
+    @Column(nullable = false)
     private String endereco;
 
-    @Column(nullable = true)
+    @NotBlank(message = "Profissão é obrigatória")
+    @Column(nullable = false)
     private String profissao;
 
     // Login

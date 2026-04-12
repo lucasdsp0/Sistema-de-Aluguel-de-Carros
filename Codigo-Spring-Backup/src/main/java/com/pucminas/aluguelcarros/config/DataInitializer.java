@@ -8,7 +8,6 @@ import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -25,7 +24,6 @@ public class DataInitializer {
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @Transactional
     void startup(@Observes StartupEvent event) {
         if (clienteRepository.count() == 0) {
             // Cliente de teste
@@ -51,7 +49,7 @@ public class DataInitializer {
             emp2.setCliente(cliente);
             cliente.getEntidadesEmpregadoras().add(emp2);
 
-            clienteRepository.persist(cliente);
+            clienteRepository.save(cliente);
 
             // Agente de teste
             Cliente agente = new Cliente();
@@ -64,7 +62,7 @@ public class DataInitializer {
             agente.setSenha(passwordEncoder.encode("123456"));
             agente.setTipoUsuario(TipoUsuario.AGENTE);
 
-            clienteRepository.persist(agente);
+            clienteRepository.save(agente);
 
             System.out.println("==============================================");
             System.out.println("  Dados iniciais carregados com sucesso!");

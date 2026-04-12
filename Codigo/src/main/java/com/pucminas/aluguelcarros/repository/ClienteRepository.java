@@ -1,19 +1,30 @@
 package com.pucminas.aluguelcarros.repository;
 
 import com.pucminas.aluguelcarros.model.Cliente;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.Optional;
 
-@Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+/**
+ * Repository para Cliente usando Quarkus Panache
+ */
+@ApplicationScoped
+public class ClienteRepository implements PanacheRepository<Cliente> {
 
-    Optional<Cliente> findByEmail(String email);
+    public Optional<Cliente> findByEmail(String email) {
+        return find("email", email).firstResultOptional();
+    }
 
-    Optional<Cliente> findByCpf(String cpf);
+    public Optional<Cliente> findByCpf(String cpf) {
+        return find("cpf", cpf).firstResultOptional();
+    }
 
-    boolean existsByCpf(String cpf);
+    public boolean existsByCpf(String cpf) {
+        return find("cpf", cpf).firstResultOptional().isPresent();
+    }
 
-    boolean existsByEmail(String email);
+    public boolean existsByEmail(String email) {
+        return find("email", email).firstResultOptional().isPresent();
+    }
 }
