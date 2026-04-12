@@ -1,40 +1,41 @@
-@startuml diagrama-componentes
-skinparam componentStyle rectangle
+@startuml diagrama-componentes-v2
+skinparam componentStyle uml2
 skinparam defaultTextAlignment center
 skinparam backgroundColor #FAFAFA
-skinparam component {
-  BorderColor #555
-  BackgroundColor #E8F4FD
-  FontSize 12
-}
-skinparam package {
+
+' Estilização
+skinparam interface {
+  BackgroundColor #White
   BorderColor #333
-  FontSize 13
-  FontStyle bold
-}
-skinparam database {
-  BorderColor #555
-  BackgroundColor #FFF3CD
-}
-skinparam node {
-  BorderColor #555
-  BackgroundColor #D4EDDA
 }
 
-node "Cliente REST\n(Browser / API Client)" as CLIENT
+node "Client Side" {
+  component "Cliente REST\n(Browser / Mobile)" as CLIENT
+}
 
-package "Micronaut Web Server (HTTP :8080)" {
+package "Network Stack" {
+  () "TCP/IP" as TCP
+  () "HTTP/S" as HTTP
+}
+
+package "Micronaut Application" {
+
+  ' Camada de API (Interface Fornecida)
+  package "API Layer" {
+    () "REST API" as REST_INT
+    [Endpoint Router] as ROUTER
+  }
 
   package "Security" {
     [Micronaut Security JWT] as JWT
   }
 
   package "Controller Layer" {
-    [AuthController\n/auth] as AUTH_CTRL
-    [ClienteController\n/clientes] as CLI_CTRL
-    [PedidoController\n/pedidos] as PED_CTRL
-    [ContratoController\n/contratos] as CON_CTRL
-    [AutomovelController\n/automoveis] as AUT_CTRL
+    [AuthController] as AUTH_CTRL
+    [ClienteController] as CLI_CTRL
+    [PedidoController] as PED_CTRL
+    [ContratoController] as CON_CTRL
+    [AutomovelController] as AUT_CTRL
   }
 
   package "Service Layer" {
@@ -45,61 +46,46 @@ package "Micronaut Web Server (HTTP :8080)" {
     [ContratoService] as CON_SVC
   }
 
-  package "Repository Layer (Micronaut Data JPA)" as REPO_LAYER {
-    [ClienteRepository] as CLI_REPO
-    [RendimentoRepository] as REN_REPO
-    [EmpregadorRepository] as EMP_REPO
-    [PedidoRepository] as PED_REPO
-    [AvaliacaoRepository] as AVAL_REPO
-    [ContratoRepository] as CON_REPO
-    [ContratoCreditoRepository] as CC_REPO
-    [AutomovelRepository] as AUT_REPO
-  }
-
-  package "Domain Model" {
-    [Entities / Enums / Interfaces\n(JPA @Entity)] as DOMAIN
+  package "Data Access Layer" {
+    [Repositories] as REPOS
   }
 }
 
-database "PostgreSQL 15\n(produção)" as DB_PROD
-database "H2 In-Memory\n(dev / testes)" as DB_DEV
+database "PostgreSQL / H2" as DB
 
-' -- HTTP --
-CLIENT --> AUTH_CTRL
-CLIENT --> CLI_CTRL
-CLIENT --> PED_CTRL
-CLIENT --> CON_CTRL
-CLIENT --> AUT_CTRL
+' --- FLUXO E DEPENDÊNCIAS ---
 
-' -- Security --
-AUTH_CTRL ..> JWT
-CLI_CTRL ..> JWT
-PED_CTRL ..> JWT
-CON_CTRL ..> JWT
-AUT_CTRL ..> JWT
+' Conectividade via Protocolos
+CLIENT --( TCP
+TCP --( HTTP
+HTTP -- REST_INT
 
-' -- Controller -> Service --
-AUTH_CTRL --> AUTH_SVC
-CLI_CTRL --> CLI_SVC
-PED_CTRL --> PED_SVC
-PED_CTRL --> AVAL_SVC
-CON_CTRL --> CON_SVC
+' Interface Fornecida/Requerida (Bola e Meia-Lua)
+REST_INT - ROUTER
+ROUTER --( "internal call" AUTH_CTRL
+ROUTER --( "internal call" CLI_CTRL
+ROUTER --( "internal call" PED_CTRL
+ROUTER --( "internal call" CON_CTRL
+ROUTER --( "internal call" AUT_CTRL
 
-' -- Service -> Repository --
-AUTH_SVC --> CLI_REPO
-CLI_SVC --> CLI_REPO
-CLI_SVC --> REN_REPO
-CLI_SVC --> EMP_REPO
-PED_SVC --> PED_REPO
-AVAL_SVC --> AVAL_REPO
-AVAL_SVC --> PED_REPO
-CON_SVC --> CON_REPO
-CON_SVC --> CC_REPO
+' Dependências (Setas Pontilhadas)
+AUTH_CTRL ..> JWT : <<use>>
+CLI_CTRL ..> JWT : <<use>>
+PED_CTRL ..> JWT : <<use>>
 
-' -- Repository -> Domain --
-REPO_LAYER --> DOMAIN
+' Fluxo Controller -> Service
+AUTH_CTRL ..> AUTH_SVC : depends
+CLI_CTRL ..> CLI_SVC : depends
+PED_CTRL ..> PED_SVC : depends
+CON_CTRL ..> CON_SVC : depends
 
-' -- Repository -> Database --
-REPO_LAYER --> DB_PROD : JDBC / Micronaut Data
-REPO_LAYER --> DB_DEV : JDBC / H2
+' Fluxo Service -> Repository
+AUTH_SVC ..> REPOS
+CLI_SVC ..> REPOS
+PED_SVC ..> REPOS
+CON_SVC ..> REPOS
+
+' Persistência
+REPOS --( "JDBC" DB
+
 @enduml
