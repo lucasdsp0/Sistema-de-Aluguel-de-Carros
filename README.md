@@ -1,145 +1,173 @@
 # Sistema de Aluguel de Carros
 
-Sistema web para gestao de alugueis de automoveis, desenvolvido como projeto academico da disciplina de Laboratorio de Desenvolvimento de Software do curso de Engenharia de Software da PUC Minas.
+Sistema web para apoio à gestão de aluguéis de automóveis, desenvolvido em Java com **Quarkus** seguindo arquitetura MVC.
 
-O sistema permite que clientes realizem, modifiquem, consultem e cancelem pedidos de aluguel pela Internet, enquanto agentes (empresas e bancos) avaliam e aprovam os pedidos do ponto de vista financeiro.
+## Sobre o Projeto
 
----
-## Integrantes do Grupo
+Sistema que permite:
+- **Clientes**: Introduzir, modificar, consultar e cancelar pedidos de aluguel
+- **Agentes**: Modificar e avaliar pedidos do ponto de vista financeiro
+- **Gestão de dados**: Identificação de clientes, automóveis, entidades empregadoras e contatos
 
-| Nome |
-|------|
-| Lucas de Souza Pereira | 
-| Yan Araújo Resende     | 
----
+## Requisitos do Sistema
+
+- Java 17+
+- Maven 3.8.1+
+- Quarkus 3.x
+- Banco de dados relacional (H2 para desenvolvimento)
 
 ## Tecnologias Utilizadas
 
-- **Linguagem:** Java
-- **Framework:** Spring Boot / Spring MVC
-- **Arquitetura:** MVC (Model-View-Controller)
-- **Front-end:** A ser decidido
-- **Banco de Dados:** A ser decidido
-- **Gerenciador de Dependencias:** Maven
-- **Versionamento:** Git / GitHub
-
----
-
-## Funcionalidades
-
-### Cliente
-- Cadastro e autenticacao no sistema
-- Criacao, consulta, modificacao e cancelamento de pedidos de aluguel
-- Visualizacao de contratos vinculados ao seu perfil
-
-### Agente (Empresa / Banco)
-- Avaliacao financeira de pedidos submetidos por clientes
-- Modificacao de pedidos em processo de avaliacao
-- Registro de propriedade de automoveis conforme tipo de contrato
-- Associacao de contratos de credito a pedidos aprovados (bancos agentes)
-
----
+- **Framework**: Quarkus
+- **Arquitetura**: MVC (Model-View-Controller)
+- **ORM**: JPA/Hibernate
+- **Template Engine**: Qute
+- **Build**: Maven
+- **Containerização**: Docker
 
 ## Estrutura do Projeto
 
 ```
 src/
-  main/
-    java/
-      com/seuprojeto/
-        controller/     # Controladores MVC
-        model/          # Entidades e regras de negocio
-        repository/     # Interfaces de acesso a dados
-        service/        # Camada de servicos
-    resources/
-      templates/        # Views (HTML)
-      static/           # Arquivos estaticos (CSS, JS)
-      application.properties
-  test/
-    java/               # Testes unitarios e de integracao
+├── main/
+│   ├── java/com/pucminas/aluguelcarros/
+│   │   ├── config/          # Configurações e inicialização
+│   │   ├── model/           # Entidades JPA
+│   │   ├── repository/      # Acesso a dados
+│   │   ├── service/         # Lógica de negócio
+│   │   └── resource/        # Controladores REST/Web
+│   └── resources/
+│       ├── application.properties
+│       ├── import.sql       # Dados iniciais
+│       └── templates/       # Páginas Qute
+└── test/                    # Testes unitários
 ```
 
----
+## Como Executar
 
-## Como Executar o Projeto
+### Modo Desenvolvimento
 
-### Pre-requisitos
+```bash
+./mvnw quarkus:dev
+```
 
-- Java 17 ou superior
-- Maven 3.8 ou superior
-- Banco de dados configurado (conforme `application.properties`)
+A aplicação estará disponível em `http://localhost:8080`
 
-### Passos
+### Compilar e Executar JAR
 
-1. Clone o repositorio:
-   ```bash
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
-   ```
+```bash
+./mvnw clean package
+java -jar target/quarkus-app/quarkus-run.jar
+```
 
-2. Configure o banco de dados no arquivo `src/main/resources/application.properties`:
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/aluguel_carros
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
-   ```
+### Build Nativo (GraalVM)
 
-3. Execute o projeto com Maven:
-   ```bash
-   mvn spring-boot:run
-   ```
+```bash
+./mvnw clean package -Pnative
+./target/aluguelcarros-runner
+```
 
-4. Acesse a aplicacao no navegador:
-   ```
-   http://localhost:8080
-   ```
+## Funcionalidades
 
----
+### Autenticação e Cadastro
+- Sistema de login seguro
+- Cadastro de clientes
+- Diferenciação entre tipos de usuários (Cliente, Agente)
 
-## Modelagem UML
+### Gestão de Pedidos
+- Criar novos pedidos de aluguel
+- Visualizar status dos pedidos
+- Modificar pedidos em processamento
+- Cancelar pedidos
 
-Os diagramas UML produzidos ao longo das sprints estao disponibilizados na pasta `/docs/uml/` do repositorio:
+### Dashboard
+- Dashboard de Cliente
+- Dashboard de Agente
+- Visualização de histórico de pedidos
 
-| Diagrama                  | Sprint    |
-|---------------------------|-----------|
-| Diagrama de Casos de Uso  | Sprint 01 |
-| Historias do Usuario      | Sprint 01 |
-| Diagrama de Classes       | Sprint 01 |
-| Diagrama de Pacotes       | Sprint 01 |
-| Diagrama de Componentes   | Sprint 02 |
-| Diagrama de Implantacao   | Sprint 03 |
+## Entidades Principais
 
----
+### Cliente
+- Dados de identificação (RG, CPF, Nome, Endereço)
+- Profissão
+- Entidades empregadoras (máximo 3)
+- Rendimentos
 
-## Processo de Desenvolvimento
+### Automovel
+- Matrícula
+- Ano, Marca, Modelo
+- Placa
+- Propriedade (Cliente, Empresa ou Banco)
 
-O projeto foi desenvolvido em tres sprints:
+### Pedido
+- Status (PENDENTE, APROVADO, REJEITADO, CANCELADO)
+- Associação com Cliente e Automóvel
+- Análise financeira por Agentes
 
-**Sprint 01 — Modelagem**  
-Elaboracao do Diagrama de Casos de Uso, Historias do Usuario, Diagrama de Classes e Diagrama de Pacotes (Visao Logica).
+## Estrutura de Repositórios
 
-**Sprint 02 — Infraestrutura e CRUD**  
-Revisao dos diagramas conforme feedback + Diagrama de Componentes + Implementacao do CRUD de cliente em ambiente web Java com arquitetura MVC.
+```
+Sistema-de-Aluguel-de-Carros/
+├── Artefatos/          # Documentação e diagramas
+│   ├── HISTORIAS_DE_USUARIO.md
+│   └── Diagramas/      # UML (Casos de Uso, Classes, Componentes, Implantação)
+└── Codigo/             # Código-fonte Quarkus
+```
 
-**Sprint 03 — Prototipo Funcional**  
-Revisao dos diagramas conforme feedback + Diagrama de Implantacao + Implementacao do prototipo permitindo criacao e acompanhamento de pedidos de aluguel.
+## Testes
 
----
+Executar testes unitários:
 
-## Informacoes Academicas
+```bash
+./mvnw test
+```
 
-| Campo         | Informacao                                    |
-|---------------|-----------------------------------------------|
-| Instituicao   | PUC Minas                                     |
-| Curso         | Engenharia de Software                        |
-| Disciplina    | Laboratorio de Desenvolvimento de Software    |
-| Professor     | Joao Paulo Carneiro Aramuni                   |
-| Periodo       | 4o Periodo                                    |
-| Avaliacao     | LAB02 — 20 pontos                             |
+Executar testes de integração:
 
----
+```bash
+./mvnw verify
+```
 
+## Docker
 
-## Licenca
+### Build da Imagem
 
-Este projeto foi desenvolvido para fins academicos. Todos os direitos reservados aos autores.
+```bash
+# JVM
+docker build -f src/main/docker/Dockerfile.jvm -t aluguelcarros:latest .
+
+# Nativo (mais rápido)
+docker build -f src/main/docker/Dockerfile.native -micro -t aluguelcarros:native .
+```
+
+### Executar Container
+
+```bash
+docker run -p 8080:8080 aluguelcarros:latest
+```
+
+## Desenvolvimento
+
+### Sprint 01
+- Modelagem do sistema (Casos de Uso, Histórias de Usuário, Classes, Pacotes)
+
+### Sprint 02
+- Revisão de diagramas + Diagrama de Componentes
+- Implementação CRUD de Cliente
+- MVC completo
+
+### Sprint 03
+- Diagrama de Implantação
+- Protótipo funcional com criação e visualização de pedidos
+
+## Contribuidores
+
+- Equipe LAB02 - Engenharia de Software PUC Minas
+
+## Licença
+
+Projeto acadêmico
+
+## Contato
+
+Professor: João Paulo Carneiro Aramuni
