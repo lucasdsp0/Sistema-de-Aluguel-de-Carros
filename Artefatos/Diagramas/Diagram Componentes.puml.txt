@@ -18,7 +18,7 @@ package "Network Stack" {
   () "HTTP/S" as HTTP
 }
 
-package "Micronaut Application" {
+package "Quarkus Application" {
 
   ' Camada de API (Interface Fornecida)
   package "API Layer" {
@@ -27,7 +27,7 @@ package "Micronaut Application" {
   }
 
   package "Security" {
-    [Micronaut Security JWT] as JWT
+    [Quarkus Security JWT] as JWT
   }
 
   package "Controller Layer" {
