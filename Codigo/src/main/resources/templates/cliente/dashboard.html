@@ -51,6 +51,26 @@
             font-weight: 500;
         }
         a:hover { background: #764ba2; }
+        .section {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .section-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .section-links a {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
     </style>
 </head>
 <body>
@@ -65,10 +85,27 @@
             </div>
         </div>
 
+        <div class="section">
+            <h2>🚗 Meus Pedidos de Aluguel</h2>
+            <p style="color: #666; margin-bottom: 15px;">Crie e acompanhe seus pedidos de aluguel de veículos</p>
+            <div class="section-links">
+                <a href="/pedido/novo">➕ Criar Novo Pedido</a>
+                <a href="/pedido/meus-pedidos">📋 Ver Meus Pedidos</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>👤 Gerenciar Perfil</h2>
+            <p style="color: #666; margin-bottom: 15px;">Atualize suas informações pessoais</p>
+            <div class="section-links">
+                <a href="/cliente/perfil">👤 Meu Perfil</a>
+                <a href="/cliente/listar">📋 Ver Clientes</a>
+            </div>
+        </div>
+
         <div class="nav-links">
-            <a href="/cliente/listar">📋 Ver Clientes</a>
-            <a href="/cliente/perfil">👤 Meu Perfil</a>
-            <a href="/">🏠 Voltar</a>
+            <a href="/">🏠 Voltar para Home</a>
+            <a href="/auth/login" onclick="if(confirm('Deseja fazer logout?')) { return true; } return false;">🚪 Logout</a>
         </div>
     </div>
 </body>

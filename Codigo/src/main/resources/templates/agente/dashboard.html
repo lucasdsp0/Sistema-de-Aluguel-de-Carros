@@ -79,6 +79,26 @@
         }
         .badge.cliente { background: #d4edda; color: #155724; }
         .badge.agente { background: #cce5ff; color: #004085; }
+        .section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .section-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .section-links a {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
     </style>
 </head>
 <body>
@@ -130,8 +150,16 @@
             </table>
         </div>
 
+        <div class="section">
+            <h2>📋 Validação de Pedidos de Aluguel</h2>
+            <p style="color: #666; margin-bottom: 15px;">Revise e aprove/rejeite os pedidos de aluguel pendentes</p>
+            <div class="section-links">
+                <a href="/pedido/validacao">✅ Validar Pedidos</a>
+            </div>
+        </div>
+
         <div class="nav-links">
-            <a href="/">🏠 Voltar</a>
+            <a href="/">🏠 Voltar para Home</a>
         </div>
     </div>
 </body>

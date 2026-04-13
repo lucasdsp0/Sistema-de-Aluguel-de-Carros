@@ -1,8 +1,10 @@
 package com.pucminas.aluguelcarros.config;
 
+import com.pucminas.aluguelcarros.model.Automovel;
 import com.pucminas.aluguelcarros.model.Cliente;
 import com.pucminas.aluguelcarros.model.EntidadeEmpregadora;
 import com.pucminas.aluguelcarros.model.TipoUsuario;
+import com.pucminas.aluguelcarros.repository.AutomovelRepository;
 import com.pucminas.aluguelcarros.repository.ClienteRepository;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -22,6 +24,9 @@ public class DataInitializer {
 
     @Inject
     ClienteRepository clienteRepository;
+
+    @Inject
+    AutomovelRepository automovelRepository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -66,7 +71,62 @@ public class DataInitializer {
 
             clienteRepository.persist(agente);
 
-            System.out.println("==============================================");
+            // Automóveis de teste
+            Automovel automovel1 = new Automovel();
+            automovel1.setMarca("Toyota");
+            automovel1.setModelo("Corolla");
+            automovel1.setPlaca("ABC-1234");
+            automovel1.setAnoFabricacao(2022);
+            automovel1.setProprietarioTipo(TipoUsuario.AGENTE);
+            automovel1.setProprietarioId(agente.getId());
+            automovel1.setValorDiarioPadrao(new BigDecimal("150.00"));
+            automovel1.setDescricao("Sedan confortável e econômico");
+            automovelRepository.persist(automovel1);
+
+            Automovel automovel2 = new Automovel();
+            automovel2.setMarca("Honda");
+            automovel2.setModelo("Civic");
+            automovel2.setPlaca("DEF-5678");
+            automovel2.setAnoFabricacao(2023);
+            automovel2.setProprietarioTipo(TipoUsuario.AGENTE);
+            automovel2.setProprietarioId(agente.getId());
+            automovel2.setValorDiarioPadrao(new BigDecimal("180.00"));
+            automovel2.setDescricao("Sedan esportivo com tecnologia avançada");
+            automovelRepository.persist(automovel2);
+
+            Automovel automovel3 = new Automovel();
+            automovel3.setMarca("Volkswagen");
+            automovel3.setModelo("Gol");
+            automovel3.setPlaca("GHI-9012");
+            automovel3.setAnoFabricacao(2021);
+            automovel3.setProprietarioTipo(TipoUsuario.AGENTE);
+            automovel3.setProprietarioId(agente.getId());
+            automovel3.setValorDiarioPadrao(new BigDecimal("120.00"));
+            automovel3.setDescricao("Hatch econômico para trajetos urbanos");
+            automovelRepository.persist(automovel3);
+
+            Automovel automovel4 = new Automovel();
+            automovel4.setMarca("Hyundai");
+            automovel4.setModelo("HB20");
+            automovel4.setPlaca("JKL-3456");
+            automovel4.setAnoFabricacao(2022);
+            automovel4.setProprietarioTipo(TipoUsuario.AGENTE);
+            automovel4.setProprietarioId(agente.getId());
+            automovel4.setValorDiarioPadrao(new BigDecimal("130.00"));
+            automovel4.setDescricao("Hatch prático com bom custo-benefício");
+            automovelRepository.persist(automovel4);
+
+            Automovel automovel5 = new Automovel();
+            automovel5.setMarca("Chevrolet");
+            automovel5.setModelo("Onix");
+            automovel5.setPlaca("MNO-7890");
+            automovel5.setAnoFabricacao(2023);
+            automovel5.setProprietarioTipo(TipoUsuario.AGENTE);
+            automovel5.setProprietarioId(agente.getId());
+            automovel5.setValorDiarioPadrao(new BigDecimal("140.00"));
+            automovel5.setDescricao("Hatch robusto com excelente desempenho");
+            automovelRepository.persist(automovel5);
+
             System.out.println("  Dados iniciais carregados com sucesso!");
             System.out.println("  Cliente:  joao@email.com   / senha: 123456");
             System.out.println("  Agente:   agente@banco.com / senha: 123456");

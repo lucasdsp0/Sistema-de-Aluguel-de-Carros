@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Pedido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .pedido-id {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .content {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .section {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-block;
+            max-width: fit-content;
+        }
+
+        .status-criado {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-analise {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-aprovado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejeitado {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-cancelado {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #667eea;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -36px;
+            top: 2px;
+            width: 12px;
+            height: 12px;
+            background: #667eea;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+
+        .timeline-item-date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .motivo-rejeicao {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            color: #721c24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .btn-secondary {
+            background-color: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #dee2e6;
+        }
+
+        .info-grid-full {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .client-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .client-info-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .client-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .client-info-item label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .client-info-item value {
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Detalhes do Pedido</h1>
+            <p class="pedido-id">Pedido #<strong>{pedido.id}</strong></p>
+        </div>
+
+        <div class="content">
+            <!-- Status -->
+            <div class="section">
+                <div class="section-title">📋 Status Atual</div>
+                <span class="status-badge status-{pedido.status.getLabel()}">
+                    {pedido.status.getDescricao()}
+                </span>
+                {#if pedido.motivoRejeicao}
+                    <div class="motivo-rejeicao">
+                        <strong>❌ Motivo da Rejeição:</strong><br>
+                        {pedido.motivoRejeicao}
+                    </div>
+                {/if}
+            </div>
+
+            <!-- Informações Básicas -->
+            <div class="section">
+                <div class="section-title">🚗 Informações do Aluguel</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Automóvel</span>
+                        <span class="info-value">
+                            {pedido.automovel.marca} {pedido.automovel.modelo}
+                        </span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Placa</span>
+                        <span class="info-value">{pedido.automovel.placa}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data de Início</span>
+                        <span class="info-value">{pedido.dataInicio}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Data de Fim</span>
+                        <span class="info-value">{pedido.dataFim}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Quantidade de Dias</span>
+                        <span class="info-value">{pedido.obterQuantidadeDias()} dia(s)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Valor Diário</span>
+                        <span class="info-value">R$ {pedido.valorDiario}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações do Cliente -->
+            <div class="section">
+                <div class="section-title">👤 Informações do Cliente</div>
+                <div class="client-info">
+                    <div class="client-info-title">{pedido.cliente.nome}</div>
+                    <div class="client-info-item">
+                        <label>E-mail:</label>
+                        <value>{pedido.cliente.email}</value>
+                    </div>
+                    <div class="client-info-item">
+                        <label>CPF:</label>
+                        <value>{pedido.cliente.cpf}</value>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo Financeiro -->
+            <div class="section">
+                <div class="section-title">💰 Resumo Financeiro</div>
+                <div class="info-grid-full">
+                    <div class="client-info">
+                        <div class="client-info-item">
+                            <label>Valor Diário:</label>
+                            <value>R$ {pedido.valorDiario}</value>
+                        </div>
+                        <div class="client-info-item">
+                            <label>Quantidade de Dias:</label>
+                            <value>{pedido.obterQuantidadeDias()}</value>
+                        </div>
+                        <div class="client-info-item">
+                            <label>Valor Total:</label>
+                            <value style="font-size: 18px; color: #667eea;">R$ {pedido.calcularValorTotal()}</value>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Datas -->
+            <div class="section">
+                <div class="section-title">📅 Histórico</div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Data de Criação</span>
+                        <span class="info-value">{pedido.dataCriacao}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Última Atualização</span>
+                        <span class="info-value">{pedido.dataAtualizacao}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="action-buttons">
+                {#if usuarioTipo == 'CLIENTE'}
+                    {#if pedido.status.name == 'CRIADO' or pedido.status.name == 'ENVIADO_ANALISE'}
+                        <form method="POST" action="/pedido/{pedido.id}/cancelar" style="margin: 0;">
+                            <button class="btn btn-danger" onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">Cancelar Pedido</button>
+                        </form>
+                    {/if}
+                    {#if pedido.status.name == 'CRIADO'}
+                        <form method="POST" action="/pedido/{pedido.id}/enviar-analise" style="margin: 0;">
+                            <button class="btn btn-primary">Enviar para Análise</button>
+                        </form>
+                    {/if}
+                {/if}
+                <a href="/pedido/meus-pedidos" class="btn btn-secondary">Voltar à Lista</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

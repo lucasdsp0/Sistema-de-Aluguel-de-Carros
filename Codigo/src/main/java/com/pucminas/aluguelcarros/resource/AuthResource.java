@@ -9,6 +9,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.NewCookie;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -83,9 +84,13 @@ public class AuthResource {
         // Login success - redirect to dashboard
         if ("CLIENTE".equals(cliente.getTipoUsuario().toString())) {
             return Response.seeOther(new java.net.URI("http://localhost:8080/cliente/dashboard"))
+                    .cookie(new NewCookie("cliente_id", cliente.getId().toString(), "/", null, null, -1, false, true))
+                    .cookie(new NewCookie("tipo_usuario", cliente.getTipoUsuario().toString(), "/", null, null, -1, false, true))
                     .build();
         } else {
             return Response.seeOther(new java.net.URI("http://localhost:8080/agente/dashboard"))
+                    .cookie(new NewCookie("cliente_id", cliente.getId().toString(), "/", null, null, -1, false, true))
+                    .cookie(new NewCookie("tipo_usuario", cliente.getTipoUsuario().toString(), "/", null, null, -1, false, true))
                     .build();
         }
     }
