@@ -84,10 +84,15 @@ public class PedidoResource {
             return "<script>alert('Você precisa estar logado'); window.location.href='/auth/login';</script>";
         }
 
+        Long clienteId = extrairClienteId(clienteIdCookie, null);
+        Optional<Cliente> clienteOpt = clienteRepository.findByIdOptional(clienteId);
+        String tipoUsuario = clienteOpt.isPresent() ? clienteOpt.get().getTipoUsuario().toString() : "CLIENTE";
+
         List<Automovel> automovels = automovelService.listarTodos();
         return criarTemplate
             .data("automovels", automovels)
             .data("erro", null)
+            .data("tipoUsuario", tipoUsuario)
             .render();
     }
 
@@ -163,10 +168,12 @@ public class PedidoResource {
         }
 
         List<Pedido> pedidos = pedidoService.listarPedidosCliente(clienteOpt.get());
+        String tipoUsuario = clienteOpt.get().getTipoUsuario().toString();
         return meusPedidosTemplate
             .data("pedidos", pedidos)
             .data("clienteNome", clienteOpt.get().getNome())
             .data("clienteId", clienteId)
+            .data("tipoUsuario", tipoUsuario)
             .data("sucesso", sucesso)
             .render();
     }

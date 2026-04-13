@@ -321,7 +321,11 @@
 
             <div class="nav-buttons">
                 <a href="/pedido/novo" class="btn-novo">+ Criar Novo Pedido</a>
-                <a href="/cliente/dashboard" class="btn-back">Voltar ao Dashboard</a>
+                {#if tipoUsuario == 'AGENTE'}
+                    <a href="/agente/dashboard" class="btn-back">Voltar ao Dashboard</a>
+                {#else}
+                    <a href="/cliente/dashboard" class="btn-back">Voltar ao Dashboard</a>
+                {/if}
             </div>
         {#else}
             <div class="table-container">

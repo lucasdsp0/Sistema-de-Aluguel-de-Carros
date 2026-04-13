@@ -206,7 +206,7 @@
                 </div>
 
                 <div class="button-group">
-                    <button type="button" class="btn-voltar" onclick="window.location.href='/cliente/dashboard'">Voltar</button>
+                    <button type="button" class="btn-voltar" onclick="window.location.href='{#if tipoUsuario == "AGENTE"}/agente/dashboard{#else}/cliente/dashboard{/if}'">Voltar</button>
                     <button type="submit" class="btn-criar">Criar Pedido</button>
                 </div>
             </form>
