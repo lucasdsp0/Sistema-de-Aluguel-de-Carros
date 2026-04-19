@@ -43,7 +43,7 @@ public class AuthResource {
     }
 
     @GET
-    @Path("login")
+    @Path("auth/login")
     @Produces(MediaType.TEXT_HTML)
     public String loginGet(@QueryParam("cadastro") String cadastroStatus) {
         String mensagem = null;
@@ -54,7 +54,7 @@ public class AuthResource {
     }
 
     @GET
-    @Path("cadastro")
+    @Path("auth/cadastro")
     @Produces(MediaType.TEXT_HTML)
     public String cadastroGet() {
         return cadastro.instance().render();
@@ -119,7 +119,7 @@ public class AuthResource {
 
             clienteService.cadastrar(novoCliente);
 
-            return Response.seeOther(new java.net.URI("http://localhost:8080/login?cadastro=sucesso"))
+            return Response.seeOther(new java.net.URI("http://localhost:8080/auth/login?cadastro=sucesso"))
                     .build();
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST)

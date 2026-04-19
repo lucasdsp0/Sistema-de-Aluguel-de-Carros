@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" href="/static/css/shared.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
@@ -15,86 +14,126 @@
             justify-content: center;
             padding: 20px;
         }
+        .login-wrapper {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 900px;
+            align-items: center;
+        }
+        .car-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+        .car-illustration {
+            font-size: 120px;
+            animation: float 3s ease-in-out infinite;
+        }
+        .car-details {
+            color: white;
+            text-align: center;
+            margin-top: 24px;
+            font-size: 16px;
+            font-weight: 500;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            line-height: 1.6;
+        }
         .login-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
             padding: 40px;
-            width: 100%;
-            max-width: 400px;
+            flex: 1;
+            min-width: 350px;
+            animation: slideInRight 0.5s ease-out;
         }
-        h1 { color: #333; margin-bottom: 30px; text-align: center; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; color: #555; font-weight: 500; }
-        input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .login-container h1 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
             font-size: 14px;
         }
-        input:focus { outline: none; border-color: #667eea; }
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        button:hover { background: #764ba2; }
         .test-creds {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            font-size: 13px;
-            color: #666;
-            border-left: 4px solid #667eea;
+            background: #f0f4ff;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+            font-size: 12px;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            line-height: 1.6;
         }
-        .signup-link { text-align: center; margin-top: 20px; color: #666; }
-        .signup-link a { display: inline; color: #667eea; text-decoration: none; font-weight: 600; }
-        .signup-link a:hover { text-decoration: underline; }
-        .alert { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
-        .error { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
+        .test-creds strong {
+            color: var(--primary-dark);
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h1>🔐 Faça Login</h1>
-
-        {#if mensagem}
-        <div class="alert">{mensagem}</div>
-        {/if}
-
-        <div class="test-creds">
-            <strong>Credenciais de Teste:</strong><br>
-            <strong>Cliente:</strong> joao@email.com / 123456<br>
-            <strong>Agente:</strong> agente@banco.com / 123456
+    <div class="login-wrapper">
+        <div class="car-section">
+            <div>
+                <div class="car-illustration">🚗</div>
+                <div class="car-details">
+                    Locação de Carros<br>
+                    <span style="font-size: 13px; opacity: 0.9;">Rápido, Seguro e Confiável</span>
+                </div>
+            </div>
         </div>
 
-        <form method="post" action="/auth/login">
-            <div class="form-group">
-                <label for="email">E-mail:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Senha:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Entrar</button>
-        </form>
+        <div class="login-container">
+            <h1>🔑 LOGIN</h1>
+            <p class="subtitle">Bem-vindo de volta!</p>
 
-        <div class="signup-link">
-            Não tem conta? <a href="/cadastro">Cadastre-se aqui</a>
-        </div>
-        <div class="signup-link" style="margin-top: 30px; font-size: 12px; border-top: 1px solid #ddd; padding-top: 20px;">
-            <a href="/">← Voltar</a>
+            {#if mensagem}
+            <div class="alert alert-success">{mensagem}</div>
+            {/if}
+
+            <div class="test-creds">
+                <strong>📝 Credenciais de Teste:</strong><br>
+                <strong>Cliente:</strong> joao@email.com / 123456<br>
+                <strong>Agente:</strong> agente@banco.com / 123456
+            </div>
+
+            <form method="post" action="/auth/login">
+                <div class="form-group">
+                    <label for="email">📧 E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">🔐 Senha</label>
+                    <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">🚗 ENTRAR</button>
+            </form>
         </div>
     </div>
+
+    <script src="/static/js/toast.js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('error')) {
+                toast.error('Erro ao fazer login. Verifique suas credenciais.', 5000);
+            }
+        });
+    </script>
 </body>
 </html>

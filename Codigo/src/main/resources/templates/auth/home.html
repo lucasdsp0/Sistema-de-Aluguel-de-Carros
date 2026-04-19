@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Aluguel de Carros - Início</title>
+    <link rel="stylesheet" href="/static/css/shared.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -13,42 +14,80 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
         .container {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
         }
-        h1 { color: #333; margin-bottom: 20px; }
-        .success { color: #27ae60; font-weight: bold; font-size: 18px; }
-        .links { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .car-icon {
+            font-size: 80px;
+            margin-bottom: 30px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 48px;
+            letter-spacing: 2px;
+        }
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin: 15px 0 30px 0;
+            line-height: 1.6;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .links {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
         a {
             display: inline-block;
-            padding: 12px 24px;
-            background: #667eea;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
-            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 16px;
         }
-        a:hover { background: #764ba2; }
+        a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚗 Sistema de Aluguel de Carros</h1>
-        <p class="success">✅ Rodando com Quarkus 3.34.3!</p>
-        <p style="margin: 15px 0; color: #666;">Bem-vindo ao sistema de gestão de aluguel de automóveis!</p>
+        <div class="car-icon">🚗</div>
+        <h1>ALUGUEL DE CARROS</h1>
+        <p class="success">✅ Rodando com Quarkus 3.34.3</p>
+        <p class="subtitle">Bem-vindo ao sistema de gestão de aluguel de automóveis!</p>
         <div class="links">
-            <a href="/login">🔐 Fazer Login</a>
-            <a href="/cadastro">📝 Cadastro</a>
-            <a href="/cliente/dashboard">📊 Cliente (Demo)</a>
-            <a href="/agente/dashboard">🏢 Agente (Demo)</a>
+            <a href="/auth/login">🔐 Fazer Login</a>
         </div>
     </div>
+
+    <script src="/static/js/toast.js"></script>
 </body>
 </html>

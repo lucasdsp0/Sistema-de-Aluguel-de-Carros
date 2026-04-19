@@ -4,243 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Novo Pedido de Aluguel</title>
+    <link rel="stylesheet" href="/static/css/shared.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 20px;
         }
-
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 600px;
+        .form-wrapper {
             width: 100%;
-            overflow: hidden;
+            max-width: 500px;
+            animation: slideInUp 0.5s ease-out;
         }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .form-container {
-            padding: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
-        }
-
-        .error-message {
-            color: #dc3545;
-            font-size: 13px;
-            padding: 12px;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .success-message {
-            color: #155724;
-            font-size: 13px;
-            padding: 12px;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-criar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-criar:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-voltar {
-            background-color: #e9ecef;
-            color: #333;
-        }
-
-        .btn-voltar:hover {
-            background-color: #dee2e6;
-        }
-
         .info-box {
-            background-color: #e7f3ff;
-            border: 1px solid #b3d9ff;
-            border-radius: 5px;
-            padding: 15px;
+            background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-left: 4px solid var(--info);
+            border-radius: var(--radius-md);
+            padding: 12px 14px;
             margin-bottom: 20px;
             font-size: 13px;
-            color: #004085;
+            color: #1e40af;
+            line-height: 1.5;
         }
-
-        .automovels-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        select {
-            padding: 10px;
-            background-color: white;
+        .info-box strong {
+            color: #1e3a8a;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Criar Novo Pedido de Aluguel</h1>
-            <p>Selecione um automóvel e as datas desejadas</p>
-        </div>
-
-        <div class="form-container">
-            {#if erro}
-                <div class="error-message">{erro}</div>
-            {/if}
-
-            <div class="info-box">
-                <strong>ℹ️ Informações:</strong> Preencha todos os campos abaixo para criar um novo pedido de aluguel. O valor diário é baseado na tarifa do automóvel selecionado.
+    <div class="form-wrapper">
+        <div class="card">
+            <div class="card-header">
+                <h1>🚗 Criar Novo Pedido</h1>
+                <p style="color: white; margin: 8px 0 0 0; opacity: 0.9; font-size: 13px;">Selecione um automóvel e as datas desejadas</p>
             </div>
 
-            <form method="POST" action="/pedido/criar">
-                <div class="form-group">
-                    <label for="automovel">Automóvel *</label>
-                    <select id="automovel" name="automovel_id" required>
-                        <option value="">-- Selecione um automóvel --</option>
-                        {#for auto in automovels}
-                            <option value="{auto.id}">
-                                {auto.marca} {auto.modelo} ({auto.anoFabricacao}) - R$ {auto.valorDiarioPadrao}/dia
-                            </option>
-                        {/for}
-                    </select>
+            <div class="card-body">
+                {#if erro}
+                <div class="alert alert-danger">{erro}</div>
+                {/if}
+
+                <div class="info-box">
+                    <strong>ℹ️ Como funciona:</strong> Preencha todos os campos para criar um novo pedido. O valor diário é baseado na tarifa do automóvel selecionado.
                 </div>
 
-                <div class="form-group">
-                    <label for="data_inicio">Data de Início *</label>
-                    <input type="date" id="data_inicio" name="data_inicio" required>
-                </div>
+                <form method="POST" action="/pedido/criar">
+                    <div class="form-group">
+                        <label for="automovel">🚗 Automóvel</label>
+                        <select id="automovel" name="automovel_id" required>
+                            <option value="">-- Selecione um automóvel --</option>
+                            {#for auto in automovels}
+                                <option value="{auto.id}">
+                                    {auto.marca} {auto.modelo} ({auto.anoFabricacao}) - R$ {auto.valorDiarioPadrao}/dia
+                                </option>
+                            {/for}
+                        </select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="data_fim">Data de Fim *</label>
-                    <input type="date" id="data_fim" name="data_fim" required>
-                </div>
+                    <div class="form-group">
+                        <label for="data_inicio">📅 Data de Início</label>
+                        <input type="date" id="data_inicio" name="data_inicio" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="valor_diario">Valor Diário (R$) *</label>
-                    <input type="text" id="valor_diario" name="valor_diario" placeholder="Ex: 150.00" required>
-                </div>
+                    <div class="form-group">
+                        <label for="data_fim">📅 Data de Fim</label>
+                        <input type="date" id="data_fim" name="data_fim" required>
+                    </div>
 
-                <div class="button-group">
-                    <button type="button" class="btn-voltar" onclick="window.location.href='{#if tipoUsuario == "AGENTE"}/agente/dashboard{#else}/cliente/dashboard{/if}'">Voltar</button>
-                    <button type="submit" class="btn-criar">Criar Pedido</button>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label for="valor_diario">💰 Valor Diário (R$)</label>
+                        <input type="text" id="valor_diario" name="valor_diario" placeholder="Ex: 150.00" required>
+                    </div>
 
-            <script>
-                // Set minimum date to today
-                const today = new Date().toISOString().split('T')[0];
-                document.getElementById('data_inicio').setAttribute('min', today);
-                document.getElementById('data_fim').setAttribute('min', today);
+                    <div class="flex" style="gap: 12px;">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='{#if tipoUsuario == "AGENTE"}/agente/dashboard{#else}/cliente/dashboard{/if}'">← Voltar</button>
+                        <button type="submit" class="btn btn-primary">✓ Criar Pedido</button>
+                    </div>
+                </form>
 
-                // Auto-fill valor_diario based on selected automovel
-                document.getElementById('automovel').addEventListener('change', function() {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const text = selectedOption.text;
-                    const match = text.match(/R\$\s([\d.,]+)\/dia/);
-                    if (match) {
-                        const valor = match[1].replace(',', '.');
-                        document.getElementById('valor_diario').value = valor;
+                <script src="/static/js/toast.js"></script>
+                <script>
+                    // Set minimum date to today
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('data_inicio').setAttribute('min', today);
+                    document.getElementById('data_fim').setAttribute('min', today);
+
+                    // Auto-fill valor_diario based on selected automovel
+                    document.getElementById('automovel').addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const text = selectedOption.text;
+                        const match = text.match(/R\$\s([\d.,]+)\/dia/);
+                        if (match) {
+                            const valor = match[1].replace(',', '.');
+                            document.getElementById('valor_diario').value = valor;
+                        }
+                    });
+
+                    // Auto-fill based on auto URL param if present
+                    const autoId = new URLSearchParams(window.location.search).get('auto');
+                    if (autoId) {
+                        document.getElementById('automovel').value = autoId;
+                        const selectedOption = document.getElementById('automovel').options[document.getElementById('automovel').selectedIndex];
+                        const text = selectedOption.text;
+                        const match = text.match(/R\$\s([\d.,]+)\/dia/);
+                        if (match) {
+                            const valor = match[1].replace(',', '.');
+                            document.getElementById('valor_diario').value = valor;
+                        }
                     }
-                });
-
-                // Auto-fill based on auto URL param if present
-                const autoId = new URLSearchParams(window.location.search).get('auto');
-                if (autoId) {
-                    document.getElementById('automovel').value = autoId;
-                    const selectedOption = document.getElementById('automovel').options[document.getElementById('automovel').selectedIndex];
-                    const text = selectedOption.text;
-                    const match = text.match(/R\$\s([\d.,]+)\/dia/);
-                    if (match) {
-                        const valor = match[1].replace(',', '.');
-                        document.getElementById('valor_diario').value = valor;
-                    }
-                }
-            </script>
+                </script>
+            </div>
         </div>
     </div>
 </body>

@@ -4,117 +4,198 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Meu Perfil — Sistema de Aluguel de Carros</title>
-    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/static/css/shared.css">
+    <style>
+        body.with-navbar {
+            background: #f5f6fa;
+        }
+        .main-content {
+            background: #f5f6fa;
+            padding: 32px 20px;
+        }
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card-header h2 {
+            font-size: 32px;
+            margin-bottom: 4px;
+        }
+        .card-header p {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin: 0;
+        }
+        .info-section {
+            margin-top: 24px;
+        }
+        .info-section h3 {
+            color: var(--text-primary);
+            font-size: 16px;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .info-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .info-item {
+            padding: 14px;
+            background: var(--bg-light);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary);
+        }
+        .info-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .info-value {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .empregadora-item {
+            padding: 14px;
+            background: #f0f4ff;
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary);
+            margin-bottom: 12px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+        .footer {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 12px;
+            padding: 20px;
+            margin-top: auto;
+        }
+    </style>
 </head>
-<body>
-
-<nav class="navbar">
-    <a class="navbar-brand" href="/cliente/dashboard">🚗 <span>Aluguel</span> de Carros</a>
-    <div class="navbar-links">
-        <a href="/cliente/dashboard">Dashboard</a>
-        <a href="/cliente/editar">Editar Dados</a>
-        <form action="/logout" method="post" style="display: inline;">
-            <button type="submit" class="btn-logout">Sair</button>
-        </form>
-    </div>
-</nav>
-
-<div class="main-container">
-
-    {#if mensagem}
-    <div class="alert alert-success">{mensagem}</div>
-    {/if}
-
-    {#if cliente}
-    <div class="card">
-        <div class="card-header">
-            <h2>👤 Meu Perfil</h2>
-            <p>Seus dados cadastrais no sistema</p>
+<body class="with-navbar light-bg">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <span class="car-icon">🚗</span>
+                <h2>ALUGUEL</h2>
+            </a>
+            <ul class="navbar-menu">
+                <li><a href="/cliente/dashboard">📊 Dashboard</a></li>
+                <li><a href="/pedido/meus-pedidos">📋 Meus Pedidos</a></li>
+                <li><a href="/cliente/perfil">👤 Perfil</a></li>
+                <li><a href="/auth/logout" class="logout-btn" onclick="showConfirmation('Deseja fazer logout?', function() { window.location.href = '/auth/logout'; }); return false;">🚪 Logout</a></li>
+            </ul>
         </div>
+    </nav>
 
-        <!-- Identificação -->
-        <h3 style="font-size: 0.9rem; text-transform: uppercase; color: #6c757d; margin-bottom: 1rem;">
-            Dados de Identificação
-        </h3>
-        <div class="info-row">
-            <div class="info-item">
-                <div class="label">Nome Completo</div>
-                <div class="value">{cliente.nome}</div>
-            </div>
-            <div class="info-item">
-                <div class="label">CPF</div>
-                <div class="value">{cliente.cpf}</div>
-            </div>
-            <div class="info-item">
-                <div class="label">RG</div>
-                <div class="value">{cliente.rg}</div>
-            </div>
-        </div>
+    <div class="main-content">
+        <div class="main-container">
+            {#if mensagem}
+            <div class="alert alert-success">{mensagem}</div>
+            {/if}
 
-        <div class="info-row">
-            <div class="info-item">
-                <div class="label">Profissão</div>
-                <div class="value">{cliente.profissao}</div>
-            </div>
-            <div class="info-item">
-                <div class="label">Endereço</div>
-                <div class="value">{cliente.endereco}</div>
-            </div>
-            <div class="info-item">
-                <div class="label">Perfil</div>
-                <div class="value">
-                    <span class="badge badge-cliente">{cliente.tipoUsuario}</span>
+            {#if cliente}
+            <div class="card">
+                <div class="card-header">
+                    <h2>👤 Meu Perfil</h2>
+                    <p>Seus dados cadastrais no sistema</p>
+                </div>
+
+                <div class="card-body">
+                    <!-- Dados de Identificação -->
+                    <div class="info-section">
+                        <h3>Dados de Identificação</h3>
+                        <div class="info-row">
+                            <div class="info-item">
+                                <div class="info-label">Nome Completo</div>
+                                <div class="info-value">{cliente.nome}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">CPF</div>
+                                <div class="info-value">{cliente.cpf}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">RG</div>
+                                <div class="info-value">{cliente.rg}</div>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-item">
+                                <div class="info-label">Profissão</div>
+                                <div class="info-value">{cliente.profissao}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Endereço</div>
+                                <div class="info-value">{cliente.endereco}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Perfil</div>
+                                <div class="info-value">
+                                    <span class="badge badge-success">{cliente.tipoUsuario}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-item" style="grid-column: 1 / -1;">
+                                <div class="info-label">E-mail</div>
+                                <div class="info-value">{cliente.email}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Entidades Empregadoras -->
+                    {#if !cliente.entidadesEmpregadoras.isEmpty()}
+                    <div class="info-section">
+                        <h3>Entidades Empregadoras</h3>
+                        {#for emp of cliente.entidadesEmpregadoras}
+                        <div class="empregadora-item">
+                            <div class="info-row" style="margin-bottom: 0;">
+                                <div class="info-item" style="border-color: transparent;">
+                                    <div class="info-label">Empresa</div>
+                                    <div class="info-value">{emp.nomeEntidade}</div>
+                                </div>
+                                <div class="info-item" style="border-color: transparent;">
+                                    <div class="info-label">Rendimento Mensal</div>
+                                    <div class="info-value">R$ {emp.rendimento}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {/for}
+                    </div>
+                    {/if}
+
+                    {#if cliente.entidadesEmpregadoras.isEmpty()}
+                    <div class="alert alert-info">
+                        ℹ️ Nenhuma entidade empregadora cadastrada.
+                    </div>
+                    {/if}
+
+                    <div class="btn-group">
+                        <a href="/cliente/editar" class="btn btn-primary">✏️ Editar Dados</a>
+                        <a href="/cliente/dashboard" class="btn btn-secondary">← Voltar</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="info-row">
-            <div class="info-item">
-                <div class="label">E-mail</div>
-                <div class="value">{cliente.email}</div>
-            </div>
-        </div>
-
-        <!-- Entidades Empregadoras -->
-        {#if !cliente.entidadesEmpregadoras.isEmpty()}
-        <div>
-            <h3 style="font-size: 0.9rem; text-transform: uppercase; color: #6c757d; margin: 1.5rem 0 1rem;">
-                Entidades Empregadoras
-            </h3>
-            {#for emp of cliente.entidadesEmpregadoras}
-            <div class="empregadora-box">
-                <div class="info-row" style="margin-bottom: 0;">
-                    <div class="info-item">
-                        <div class="label">Empresa</div>
-                        <div class="value">{emp.nomeEntidade}</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="label">Rendimento Mensal</div>
-                        <div class="value">R$ {emp.rendimento}</div>
-                    </div>
-                </div>
-            </div>
-            {/for}
-        </div>
-        {/if}
-
-        {#if cliente.entidadesEmpregadoras.isEmpty()}
-        <div class="alert alert-info">
-            Nenhuma entidade empregadora cadastrada.
-        </div>
-        {/if}
-
-        <div class="btn-group">
-            <a href="/cliente/editar" class="btn btn-primary">✏️ Editar Dados</a>
-            <a href="/cliente/dashboard" class="btn btn-secondary">← Voltar</a>
+            {/if}
         </div>
     </div>
-    {/if}
 
-</div>
-
-<div class="footer">
-    Sistema de Aluguel de Carros — PUC Minas · Laboratório de Desenvolvimento de Software
-</div>
+    <script src="/static/js/toast.js"></script>
+    <script src="/static/js/navbar.js"></script>
 </body>
 </html>

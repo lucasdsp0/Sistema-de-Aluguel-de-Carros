@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Pedidos de Aluguel</title>
+    <link rel="stylesheet" href="/static/css/shared.css">
     <style>
         * {
             margin: 0;
@@ -15,6 +16,12 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
             padding: 20px;
         }
 
@@ -39,6 +46,8 @@
         .header h1 {
             font-size: 28px;
             color: #333;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 1px;
         }
 
         .header p {
@@ -187,6 +196,7 @@
 
         .btn-ver:hover {
             background-color: #5568d3;
+            transform: translateY(-1px);
         }
 
         .btn-cancelar {
@@ -196,6 +206,7 @@
 
         .btn-cancelar:hover {
             background-color: #c82333;
+            transform: translateY(-1px);
         }
 
         .btn-cancelar:disabled {
@@ -263,78 +274,109 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="header-welcome">
-                <h1>Meus Pedidos de Aluguel</h1>
-                <p>Bem-vindo, {clienteNome}!</p>
-            </div>
-            <a href="/pedido/novo" class="btn-novo-pedido">+ Novo Pedido</a>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-brand">
+                <span class="car-icon">🚗</span>
+                <h2>ALUGUEL</h2>
+            </a>
+            <ul class="navbar-menu">
+                <li><a href="/cliente/dashboard">📊 Dashboard</a></li>
+                <li><a href="/pedido/meus-pedidos">📋 Meus Pedidos</a></li>
+                <li><a href="/cliente/perfil">👤 Perfil</a></li>
+                <li><a href="/auth/logout" class="logout-btn" onclick="showConfirmation('Deseja fazer logout?', function() { window.location.href = '/auth/logout'; }); return false;">🚪 Logout</a></li>
+            </ul>
         </div>
+    </nav>
 
-        {#if sucesso}
-            <div class="success-message">{sucesso}</div>
-        {/if}
-
-        {#if pedidos.size() > 0}
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Automóvel</th>
-                            <th>Data de Início</th>
-                            <th>Data de Fim</th>
-                            <th>Valor Total</th>
-                            <th>Status</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#for pedido in pedidos}
-                            <tr>
-                                <td>#{pedido.id}</td>
-                                <td>{pedido.automovel.marca} {pedido.automovel.modelo}</td>
-                                <td>{pedido.dataInicio}</td>
-                                <td>{pedido.dataFim}</td>
-                                <td>R$ {pedido.calcularValorTotal()}</td>
-                                <td>
-                                    <span class="status-badge status-{pedido.status.getLabel()}">
-                                        {pedido.status.getDescricao()}
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="actions">
-                                        <a href="/pedido/{pedido.id}" class="btn-action btn-ver">Ver</a>
-                                        {#if pedido.status.name == 'CRIADO' or pedido.status.name == 'ENVIADO_ANALISE'}
-                                            <form method="POST" action="/pedido/{pedido.id}/cancelar" style="margin: 0;">
-                                                <button type="submit" class="btn-action btn-cancelar" onclick="return confirm('Tem certeza que deseja cancelar este pedido?')">Cancelar</button>
-                                            </form>
-                                        {/if}
-                                    </div>
-                                </td>
-                            </tr>
-                        {/for}
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="nav-buttons">
-                <a href="/pedido/novo" class="btn-novo">+ Criar Novo Pedido</a>
-                {#if tipoUsuario == 'AGENTE'}
-                    <a href="/agente/dashboard" class="btn-back">Voltar ao Dashboard</a>
-                {#else}
-                    <a href="/cliente/dashboard" class="btn-back">Voltar ao Dashboard</a>
-                {/if}
-            </div>
-        {#else}
-            <div class="table-container">
-                <div class="empty-message">
-                    <p>Você ainda não tem nenhum pedido de aluguel.</p>
-                    <a href="/pedido/novo">Criar Primeiro Pedido</a>
+    <div class="main-content">
+        <div class="container">
+            <div class="header">
+                <div class="header-welcome">
+                    <h1>📋 MEUS PEDIDOS DE ALUGUEL</h1>
+                    <p>Bem-vindo, {clienteNome}!</p>
                 </div>
+                <a href="/pedido/novo" class="btn-novo-pedido">+ Novo Pedido</a>
             </div>
-        {/if}
+
+            {#if sucesso}
+                <div class="success-message">{sucesso}</div>
+            {/if}
+
+            {#if pedidos.size() > 0}
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Automóvel</th>
+                                <th>Data de Início</th>
+                                <th>Data de Fim</th>
+                                <th>Valor Total</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#for pedido in pedidos}
+                                <tr>
+                                    <td>#{pedido.id}</td>
+                                    <td>{pedido.automovel.marca} {pedido.automovel.modelo}</td>
+                                    <td>{pedido.dataInicio}</td>
+                                    <td>{pedido.dataFim}</td>
+                                    <td>R$ {pedido.calcularValorTotal()}</td>
+                                    <td>
+                                        <span class="status-badge status-{pedido.status.getLabel()}">
+                                            {pedido.status.getDescricao()}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <a href="/pedido/{pedido.id}" class="btn-action btn-ver">Ver</a>
+                                            {#if pedido.status.name == 'CRIADO' or pedido.status.name == 'ENVIADO_ANALISE'}
+                                                <button class="btn-action btn-cancelar" onclick="cancelarPedido({pedido.id})">Cancelar</button>
+                                            {/if}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {/for}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="nav-buttons">
+                    <a href="/pedido/novo" class="btn-novo">+ Criar Novo Pedido</a>
+                    {#if tipoUsuario == 'AGENTE'}
+                        <a href="/agente/dashboard" class="btn-back">← Voltar ao Dashboard</a>
+                    {#else}
+                        <a href="/cliente/dashboard" class="btn-back">← Voltar ao Dashboard</a>
+                    {/if}
+                </div>
+            {#else}
+                <div class="table-container">
+                    <div class="empty-message">
+                        <p>🚗 Você ainda não tem nenhum pedido de aluguel.</p>
+                        <a href="/pedido/novo">Criar Primeiro Pedido</a>
+                    </div>
+                </div>
+            {/if}
+        </div>
     </div>
+
+    <script src="/static/js/toast.js"></script>
+    <script src="/static/js/navbar.js"></script>
+    <script>
+        function cancelarPedido(pedidoId) {
+            showConfirmation('Tem certeza que deseja cancelar este pedido?', function() {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/pedido/' + pedidoId + '/cancelar';
+                document.body.appendChild(form);
+                toast.success('Pedido cancelado com sucesso!', 2000);
+                setTimeout(() => form.submit(), 500);
+            });
+        }
+    </script>
 </body>
 </html>

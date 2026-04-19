@@ -4,81 +4,115 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Aluguel de Carros - Início</title>
+    <link rel="stylesheet" href="/static/css/shared.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
-        .container {
+        .hero-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            padding: 40px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            padding: 60px 40px;
             text-align: center;
             max-width: 600px;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .car-icon {
+            font-size: 80px;
+            margin-bottom: 24px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
         }
         h1 {
-            color: #333;
-            margin-bottom: 20px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .success-badge {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 16px;
+            display: inline-block;
+            padding: 8px 16px;
+            background: #ecfdf5;
+            border-radius: var(--radius-md);
         }
         .message {
-            color: #666;
-            margin: 20px 0;
-            font-size: 16px;
+            color: var(--text-secondary);
+            margin: 16px 0;
+            font-size: 15px;
+            line-height: 1.8;
         }
-        .success {
-            color: #27ae60;
-            font-weight: bold;
-            font-size: 18px;
+        .benefits {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            border-left: 4px solid var(--primary);
+            text-align: left;
+        }
+        .benefits strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .benefits li {
+            margin: 8px 0;
+            margin-left: 20px;
         }
         .links {
-            margin-top: 30px;
+            margin-top: 32px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
         }
-        a {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background 0.3s;
-            font-weight: 500;
-        }
-        a:hover {
-            background: #764ba2;
+        .btn-login {
+            padding: 14px 32px;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🎉 Sistema de Aluguel de Carros</h1>
-        <p class="success">✅ Aplicação rodando com Quarkus!</p>
+    <div class="hero-container">
+        <div class="car-icon">🚗</div>
+        <h1>ALUGUEL DE CARROS</h1>
+        <div class="success-badge">✅ Rodando com Quarkus 3.34.3</div>
         <p class="message">
-            Seu projeto foi migrado com sucesso para <strong>Quarkus 3.34.3</strong>
+            Seu projeto foi <strong>migrado com sucesso</strong> para Quarkus
         </p>
-        <p class="message">
-            Benefícios:<br>
-            ⚡ Startup 5x mais rápido<br>
-            💾 Memória 4x menor<br>
-            🚀 Suporte a Native Image
-        </p>
+        <div class="benefits">
+            <strong>⚡ Benefícios da Migração:</strong>
+            <ul style="list-style: none; padding: 0;">
+                <li>⚡ Startup <strong>5x mais rápido</strong></li>
+                <li>💾 Consumo de memória <strong>4x menor</strong></li>
+                <li>🚀 Suporte a <strong>Native Image</strong></li>
+            </ul>
+        </div>
         <div class="links">
-            <a href="/login">Fazer Login</a>
-            <a href="/cadastro">Cadastro</a>
+            <a href="/auth/login" class="btn btn-primary btn-login">🔐 Fazer Login</a>
         </div>
     </div>
+
+    <script src="/static/js/toast.js"></script>
 </body>
 </html>
